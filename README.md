@@ -52,4 +52,3 @@ Se han generado los siguientes artefactos:
 - `reporte-staging`
 - `reporte-production`
 
-El workflow cumple los requisitos establecidos en el enunciado.
