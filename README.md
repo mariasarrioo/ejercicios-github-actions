@@ -1,4 +1,4 @@
-# Ejercicio 20 - Pipeline de Datos Seguro y Automatizado
+# GitHub Actions - Entregable
 
 ## 1. Activación del workflow
 
