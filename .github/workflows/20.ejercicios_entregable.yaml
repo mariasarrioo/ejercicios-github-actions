@@ -1,0 +1,82 @@
+name: 20 - Ejercicio Entregable
+
+on:
+  workflow_dispatch:
+    inputs:
+      tests_seguridad:
+        description: '¿Deseas ejecutar los Tests de Seguridad?'
+        required: true
+        type: choice
+        options:
+          - 'sí'
+          - 'no'
+        default: 'sí'
+
+jobs:
+
+  # JOB 1: CI Y SEGURIDAD
+  ci_seguridad:
+    name: CI & Seguridad
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validar JSON de ventas
+        run: |
+          python -m json.tool ventas.json > /dev/null
+          echo "El archivo ventas.json es valido"
+
+      - name: Ejecutar Tests de Seguridad
+        if: ${{ inputs.tests_seguridad == 'sí' }}
+        run: python security_scan.py
+
+
+  # JOB 2: PROCESAMIENTO CON MATRIX
+  procesamiento:
+    name: Procesamiento
+    needs: ci_seguridad
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        entorno: [staging, production]
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Generar reporte
+        run: |
+          echo "REPORTE DE PROCESAMIENTO" > reporte-${{ matrix.entorno }}.txt
+          echo "Entorno: ${{ matrix.entorno }}" >> reporte-${{ matrix.entorno }}.txt
+          echo "Archivo procesado: ventas.json" >> reporte-${{ matrix.entorno }}.txt
+          echo "Estado: Correcto" >> reporte-${{ matrix.entorno }}.txt
+
+      - name: Subir reporte como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-${{ matrix.entorno }}
+          path: reporte-${{ matrix.entorno }}.txt
+
+
+  # JOB 3: NOTIFICACION DE EXITO
+  notificacion:
+    name: Notificacion de Exito
+    needs: [ci_seguridad, procesamiento]
+    runs-on: ubuntu-latest
+    if: ${{ success() }}
+
+    steps:
+      - name: Simular notificacion Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          echo "Notificacion enviada correctamente a Discord"
+          echo "Webhook: $DISCORD_WEBHOOK"
