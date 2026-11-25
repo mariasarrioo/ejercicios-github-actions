@@ -25,7 +25,8 @@ Se utiliza una estrategia Matrix para ejecutar el procesamiento en dos entornos:
 
 Se utiliza el secreto `DISCORD_WEBHOOK` para simular el envío de una notificación a Discord mediante un comando `echo`.
 
-![Notificación de éxito](fotos/foto3.png)
+![En progreso](fotos/foto3.png)
+![Notificación de éxito](fotos/foto7.png)
 
 ## 5. Comprobación de las ejecuciones
 
@@ -40,6 +41,7 @@ Se han realizado dos ejecuciones para comprobar el funcionamiento del parámetro
 El paso de seguridad aparece como `Skipped`, mientras que el resto del pipeline finaliza correctamente.
 
 ![Ejecución con seguridad desactivada](fotos/foto5.png)
+![Seguridad skipped](fotos/foto6.png)
 
 ## 6. Resultado final
 
