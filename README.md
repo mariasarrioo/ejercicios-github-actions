@@ -4,7 +4,7 @@
 
 Se ha creado el workflow `20.ejercicio_entregable.yaml`, que se ejecuta manualmente mediante `workflow_dispatch` y permite elegir si se ejecutan los tests de seguridad (sí/no).
 
-![Activación del workflow](fotos/foto1.png)
+![Activación del workflow](fotos/foto1_2.png)
 
 ## 2. Job 1: CI & Seguridad
 
